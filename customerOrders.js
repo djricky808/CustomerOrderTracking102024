@@ -18,9 +18,10 @@ function findTop5Spenders(orders) {
   //console.log(parseFloat(orders[0].price_per_unit));
   orders.forEach((order) => {
     let id = order.customer_id;
-    let pricePerUnit = order.pricePerUnit=== ''? 0: parseFloat(order.price_per_unit);
+    let pricePerUnit = order.price_per_unit ? parseFloat(order.price_per_unit) : 0;
     let quantity = parseInt(order.quantity);
     let totalPrice = pricePerUnit * quantity;
+    console.log(order.price_per_unit);
     console.log(pricePerUnit);
     if (customerData[id]) {
         customerData[id] += totalPrice;
