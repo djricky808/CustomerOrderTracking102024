@@ -9,7 +9,7 @@ fs.createReadStream("orders.csv")
   .on("data", (data) => orders.push(data))
   .on("end", () => {
     //console.log(orders);
-    //customerWithTheMostOrders(orders);
+    customerWithTheMostOrders(orders);
     theMostPopularProduct(orders);
   });
 
@@ -22,7 +22,7 @@ function customerWithTheMostOrders(orders) {
   const customerData = {};
   orders.forEach((order) => {
     let customerID = order.customer_id;
-    let quantity = order.quantity;
+    let quantity = parseInt(order.quantity);
     if (customerData[customerID]) {
       customerData[customerID] += quantity;
     } else {
@@ -38,7 +38,7 @@ function customerWithTheMostOrders(orders) {
     (a, b) => b[1] - a[1]
   );
 
-  console.log(customersRankedByOrderQuantity);
+  //console.log(customersRankedByOrderQuantity);
 
   let highestPayingCustomers = [];
 
@@ -68,7 +68,7 @@ function theMostPopularProduct(orders) {
 
   orders.forEach((order) => {
     let productID = order.product_id;
-    let quantity = order.quantity;
+    let quantity = parseInt(order.quantity);
     if(productData[productID]) {
       productData[productID] += quantity;
     } else {
