@@ -8,7 +8,7 @@ fs.createReadStream("orders.csv")
   .pipe(csv())
   .on("data", (data) => orders.push(data))
   .on("end", () => {
-    console.log(orders);
+    //console.log(orders);
     //customerWithTheMostOrders(orders);
     theMostPopularProduct(orders);
   });
@@ -76,6 +76,16 @@ function theMostPopularProduct(orders) {
     }
   })
 
-  console.log(productData);
+  // console.log(productData);
+
+  const products = []
+
+  for (const product in productData) {
+    products.push([product, productData[product]])
+  }
+
+  const sortByUnitsSold = products.sort((a,b) => b[1] - a[1])
+
+  console.log (sortByUnitsSold.slice(0,1));
 
 }
