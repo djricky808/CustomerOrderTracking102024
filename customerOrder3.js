@@ -8,7 +8,7 @@ fs.createReadStream("orders.csv")
   .pipe(csv())
   .on("data", (data) => revenue.push(data))
   .on("end", () => {
-    //console.log(revenue);
+    console.log(revenue);
     monthlyRevenue(revenue);
   });
 // ## Part 3: Revenue Insights
@@ -19,13 +19,26 @@ fs.createReadStream("orders.csv")
 
 function monthlyRevenue(revenue) {
   const monthlySales = {};
+
   revenue.forEach((sale) => {
     let monthOfSale = sale.order_date.split("-").slice(0, 2);
-    console.log(monthOfSale);
-    if (!isNaN(parseInt(monthOfSale[0]))) {
-      console.log([parseInt(monthOfSale[0]), "This is a year"]);
+    let pricePerUnit = parseFloat(sale.price_per_unit);
+    let quantity = parseInt(sale.quantity);
+    //console.log(monthOfSale);
+    if (!isNaN(parseInt(monthOfSale[0])) && !isNaN(pricePerUnit) && !isNaN(quantity)) {
+      let yearAndMonth = monthOfSale.join('-')
+      let saleTotal = parseFloat((pricePerUnit * quantity).toFixed(2));
+      if (monthOfSale) {
+        console.log([yearAndMonth, saleTotal])
+        monthlySales[yearAndMonth] += Number(saleTotal);
+      } else {
+        console.log([yearAndMonth, saleTotal]);
+        monthlySales[yearAndMonth] = Number(saleTotal);
+      }
     } else {
-      console.log([monthOfSale[0], "This is not a year"]);
+      // console.log([monthOfSale[0], pricePerUnit, quantity, 'one of these is not a number'])
     }
   });
+
+  console.log(monthlySales);
 }
