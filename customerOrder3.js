@@ -1,7 +1,7 @@
-const csv = require("csv-parser");
-const fs = require("fs");
-const { totalmem } = require("os");
-const { parse } = require("path");
+import csv from "csv-parser";
+import fs from "fs";
+import { totalmem } from "os";
+import { parse } from "path";
 const revenue = [];
 
 fs.createReadStream("orders.csv")
@@ -15,8 +15,6 @@ fs.createReadStream("orders.csv")
 
 // 1. **Calculate the total revenue generated for each month**. Your output should display the `year-month` (e.g., `2023-07`) and the corresponding `total_revenue`.
 
-// 2. **Identify any customers who haven't placed an order in the last 6 months** (based on the most recent order date in the dataset). List their `customer_id` and the date of their last order.
-
 function monthlyRevenue(revenue) {
   const monthlySales = {};
 
@@ -28,7 +26,7 @@ function monthlyRevenue(revenue) {
     if (!isNaN(parseInt(monthOfSale[0])) && !isNaN(pricePerUnit) && !isNaN(quantity)) {
       let yearAndMonth = monthOfSale.join('-')
       let saleTotal = parseFloat((pricePerUnit * quantity).toFixed(2));
-      if (monthOfSale) {
+      if (monthlySales[monthOfSale]) {
         console.log([yearAndMonth, saleTotal])
         monthlySales[yearAndMonth] += Number(saleTotal);
       } else {
@@ -42,3 +40,5 @@ function monthlyRevenue(revenue) {
 
   console.log(monthlySales);
 }
+
+// 2. **Identify any customers who haven't placed an order in the last 6 months** (based on the most recent order date in the dataset). List their `customer_id` and the date of their last order.
