@@ -22,15 +22,12 @@ function monthlyRevenue(revenue) {
     let monthOfSale = sale.order_date.split("-").slice(0, 2);
     let pricePerUnit = parseFloat(sale.price_per_unit);
     let quantity = parseInt(sale.quantity);
-    //console.log(monthOfSale);
     if (!isNaN(parseInt(monthOfSale[0])) && !isNaN(pricePerUnit) && !isNaN(quantity)) {
       let yearAndMonth = monthOfSale.join('-')
       let saleTotal = parseFloat((pricePerUnit * quantity).toFixed(2));
       if (monthlySales[monthOfSale]) {
-        console.log([yearAndMonth, saleTotal])
         monthlySales[yearAndMonth] += Number(saleTotal);
       } else {
-        console.log([yearAndMonth, saleTotal]);
         monthlySales[yearAndMonth] = Number(saleTotal);
       }
     } else {
@@ -42,3 +39,7 @@ function monthlyRevenue(revenue) {
 }
 
 // 2. **Identify any customers who haven't placed an order in the last 6 months** (based on the most recent order date in the dataset). List their `customer_id` and the date of their last order.
+
+function findLostCustomers(revenue){
+
+}
