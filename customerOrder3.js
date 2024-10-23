@@ -8,7 +8,7 @@ fs.createReadStream("orders.csv")
   .pipe(csv())
   .on("data", (data) => revenue.push(data))
   .on("end", () => {
-    console.log(revenue);
+    //console.log(revenue);
     monthlyRevenue(revenue);
     findLostCustomers(revenue);
   });
@@ -58,10 +58,14 @@ function findLostCustomers(revenue){
 
   console.log(new Date(mostRecentOrderUnixTimeStamp));
 
-  const sixMonthsAgo = mostRecentOrderUnixTimeStamp - 1745280000;
+  const sixMonthsAgo = mostRecentOrderUnixTimeStamp - 15778458000;
 
   const customersWhoHaveNotShoppedInSixMonths = 
-  customerAndDate.filter((sale) => sale[0] <= sixMonthsAgo);
+  customerAndDate.filter((sale) => !isNaN(sale[0]))
+  .filter((sale) => sale[2] !== 'INVALID_ID')
+  .filter((sale) => sale[0] <= sixMonthsAgo)
+  .sort((a, b) => b[0] - a[0])
+  .map((sale) => [sale[2], sale[1]]);
 
   console.log(customersWhoHaveNotShoppedInSixMonths);
 
